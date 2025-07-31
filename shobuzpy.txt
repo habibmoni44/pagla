@@ -1,0 +1,60 @@
+import os
+import requests
+import time
+
+def banner():
+    os.system("clear")
+    print("""
+\033[1;32m
+███████╗██╗  ██╗ ██████╗ ██████╗ ██╗   ██╗███████╗
+██╔════╝██║  ██║██╔════╝ ██╔══██╗██║   ██║██╔════╝
+███████╗███████║██║  ███╗██████╔╝██║   ██║█████╗  
+╚════██║██╔══██║██║   ██║██╔═══╝ ██║   ██║██╔══╝  
+███████║██║  ██║╚██████╔╝██║     ╚██████╔╝███████╗
+╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝      ╚═════╝╚══════╝
+        WELCOME TO SHOBUZ TOOL 😎
+\033[0m
+    """)
+
+def ip_info():
+    ip = input("Enter IP or domain: ")
+    print("Fetching info...")
+    r = requests.get(f"https://ipinfo.io/{ip}/json")
+    if r.status_code == 200:
+        data = r.json()
+        for key, val in data.items():
+            print(f"{key}: {val}")
+    else:
+        print("Invalid IP or Error occurred.")
+    input("\nPress Enter to return to menu...")
+
+def random_quote():
+    print("Fetching a random quote...")
+    r = requests.get("https://api.quotable.io/random")
+    if r.status_code == 200:
+        data = r.json()
+        print(f"\n💬 \"{data['content']}\" — {data['author']}")
+    else:
+        print("Error fetching quote.")
+    input("\nPress Enter to return to menu...")
+
+def main():
+    while True:
+        banner()
+        print("1. IP Info Checker")
+        print("2. Random Quote Generator")
+        print("3. Exit")
+        choice = input("\nChoose an option (1-3): ")
+        if choice == "1":
+            ip_info()
+        elif choice == "2":
+            random_quote()
+        elif choice == "3":
+            print("Thanks for using SHOBUZ TOOL. Goodbye!")
+            break
+        else:
+            print("Invalid option.")
+            time.sleep(1)
+
+if __name__ == "__main__":
+    main()
